@@ -10,23 +10,31 @@ from flask_app.controllers import users
 class User: 
     def __init__(self, data):
         self.id = data['id']
+        self.profile_pic = data['profile_pic']
         self.username = data['username']
         self.email = data['email']
         self.password = data['password']
         self.created_at = data['created_at']
         self.updated_at = data['updated_at']
 
+
+
+    #Register/Create A User
     @classmethod
     def create_user(cls, data):
-        query = "INSERT INTO users (username, email, password) VALUES (%(username)s, %(email)s, %(password)s);"
+        query = "INSERT INTO users (profile_pic, username, email, password) VALUES (%(profile_pic)s, %(username)s, %(email)s, %(password)s);"
         return connectToMySQL('foodbook').query_db(query, data)
 
+
+    #Find A User By ID
     @classmethod
     def get_user(cls, data):
         query = "SELECT * FROM users WHERE id = %(id)s;"
         results = connectToMySQL('foodbook').query_db(query, data)
         return cls(results[0])
 
+
+    #Find A User By Email (with the ability to see if the email exists or not already)
     @classmethod
     def get_email(cls, data):
         query = "SELECT * FROM users WHERE email = %(email)s;"
@@ -34,7 +42,9 @@ class User:
         if len(results) < 1:
             return False
         return cls(results[0])
+    
 
+    #Validations On User Creation
     @staticmethod
     def validate_user(data):
         is_valid = True

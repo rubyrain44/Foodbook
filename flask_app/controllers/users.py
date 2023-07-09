@@ -14,6 +14,7 @@ def index():
 @app.route('/logout', methods=['POST'])
 def logout():
     session.clear()
+    #Clears the session on logout
     return redirect ('/') 
 
 
@@ -22,7 +23,9 @@ def logout():
 def register():
     if not User.validate_user(request.form):
         return redirect('/')
+        #Redirects the user back to the page if validations aren't met/passed 
     pw_hash = bcrypt.generate_password_hash(request.form['register_password'])
+    #Hashes the registered password from the request.form
     print(pw_hash)
     data = {
         'first_name' : request.form['first_name'],
@@ -30,6 +33,8 @@ def register():
         'email' : request.form['email'],
         'password' : pw_hash
     }
+    #Complies the data from the request.form and the bcrypt hash and then proceeds to pass it into the user creation method below,
+    # and attaching the created user to the user logged in in session, allowing them to stay logged in after redirect
     session['user_id'] = User.create_user(data)
     print(session['user_id'])
     return redirect ('/dashboard')
@@ -46,6 +51,8 @@ def login():
     if not bcrypt.check_password_hash(user_in_db.password, request.form['login_password']):
         flash("Invalid Email/Password")
         return redirect('/')
+    #The user logs in with their email, and either meets the conditions, or is checked to see if their email is already registered.
+    #If they meet the requirements met, then that user is set to the user logged in in session
     session['user_id'] = user_in_db.id
     return redirect("/dashboard")
 
@@ -55,6 +62,8 @@ def login():
 def dashboard():
     if 'user_id' in session:
         user = User.get_user({'id' : session['user_id']})
+        #This step checks if a user is logged in and in session, and if so, they are attached to 'user', to allow data to be passed
+        #to the page that is rendered.
         return render_template ('dashboard.html', user=user)
     return redirect ('/')
 
