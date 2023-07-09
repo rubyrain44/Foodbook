@@ -10,7 +10,43 @@
 </head>
 <body>
 
+    <div class="indexPage">
+        
+        <div class="entryDiv">
+            <div>
+                <h1 class="foodbookH1">~ Foodbook ~</h1>
+            </div> <!--Header end-->
 
+            <div class="errors">
+                <div class="mt-2 bg-danger">
+                    {% with messages = get_flashed_messages() %}
+                        {% if messages %}
+                            {% for message in messages %}
+                                <p class="text-white p-2">{{message}}</p>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+                </div>
+            </div> <!--Errors end-->
 
+            <div class="loginForm">
+                <form action="/login" method="POST">
+                    <label for="email">Email: </label>
+                    <input class="form-control" type="email" name="email">
+                    
+                    <label for="login_password">Password: </label>
+                    <input class="form-control" type="password" name="login_password">
+                    
+                    <input class="p-1 mt-1 bg-success text-white" type="submit" value="Login">
+                </form>
+            </div> <!--Login Form end-->
+
+            <div class="registerLink">
+                <a class="registerLink" href="/register">Register An Account </a>
+            </div>
+            
+        </div> <!--EntryDiv end-->
+        
+    </div> <!--indexPage end-->
 </body>
 </html>

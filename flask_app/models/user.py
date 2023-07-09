@@ -10,7 +10,8 @@ from flask_app.controllers import users
 class User: 
     def __init__(self, data):
         self.id = data['id']
-        self.profile_pic = data['profile_pic']
+        # self.profile_pic = data['profile_pic']
+        #Look into how to add a profile picture at some point
         self.username = data['username']
         self.email = data['email']
         self.password = data['password']
@@ -22,15 +23,18 @@ class User:
     #Register/Create A User
     @classmethod
     def create_user(cls, data):
-        query = "INSERT INTO users (profile_pic, username, email, password) VALUES (%(profile_pic)s, %(username)s, %(email)s, %(password)s);"
+        query = "INSERT INTO users (username, email, password) VALUES (%(username)s, %(email)s, %(password)s);"
         return connectToMySQL('foodbook').query_db(query, data)
 
 
     #Find A User By ID
     @classmethod
     def get_user(cls, data):
+        print('a')
         query = "SELECT * FROM users WHERE id = %(id)s;"
+        print('b')
         results = connectToMySQL('foodbook').query_db(query, data)
+        print(results)
         return cls(results[0])
 
 

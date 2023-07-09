@@ -17,19 +17,22 @@ def logout():
     #Clears the session on logout
     return redirect ('/') 
 
+#REGISTER PAGE
+@app.route('/register')
+def register():
+    return render_template('register.html')
 
 #REGISTER FORM
 @app.route('/register', methods=['POST'])
-def register():
+def registerForm():
     if not User.validate_user(request.form):
-        return redirect('/')
+        return redirect('/register')
         #Redirects the user back to the page if validations aren't met/passed 
     pw_hash = bcrypt.generate_password_hash(request.form['register_password'])
     #Hashes the registered password from the request.form
     print(pw_hash)
     data = {
-        'first_name' : request.form['first_name'],
-        'last_name' : request.form['last_name'],
+        'username' : request.form['username'],
         'email' : request.form['email'],
         'password' : pw_hash
     }
@@ -61,10 +64,10 @@ def login():
 @app.route('/dashboard')
 def dashboard():
     if 'user_id' in session:
-        user = User.get_user({'id' : session['user_id']})
+        session_user = User.get_user({'id' : session['user_id']})
         #This step checks if a user is logged in and in session, and if so, they are attached to 'user', to allow data to be passed
         #to the page that is rendered.
-        return render_template ('dashboard.html', user=user)
+        return render_template ('dashboard.html', session_user=session_user)
     return redirect ('/')
 
 

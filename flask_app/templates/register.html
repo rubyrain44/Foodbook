@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="../static/css/styles.css">
+    <title>Foodbook</title>
+</head>
+<body>
+
+    <div class="indexPage">
+        
+        <div class="registerDiv">
+            <div>
+                <h1 class="foodbookH1">~ Foodbook ~</h1>
+            </div> <!--Header end-->
+
+            <div class="errors">
+                <div class="mt-2 bg-danger">
+                    {% with messages = get_flashed_messages() %}
+                        {% if messages %}
+                            {% for message in messages %}
+                                <p class="text-white p-2">{{message}}</p>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+                </div>
+            </div> <!--Errors end-->
+
+            <div class="registerForm">
+                <form action="/register" method="POST">
+                    
+                    <label for="username">Username: </label>
+                    <input class="form-control" type="text" name="username">
+                    
+                    <label for="email">Email: </label>
+                    <input class="form-control" type="email" name="email">
+                    
+                    <label for="register_password">Password: </label>
+                    <input class="form-control" type="password" name="register_password">
+                    
+                    <label for="confirm_password">Confirm Password:</label>
+                    <input class="form-control" type="password" name="confirm_password">
+                    
+                    <input class="p-1 mt-1 bg-primary text-white" type="submit" value="Register">
+                </form>
+            </div> <!--Register Form end-->
+
+            <div class="goBackLink">
+                <a class="goBackLink" href="/">Go Back</a>
+            </div>
+
+        </div> <!--registerDiv end-->
+        
+    </div> <!--indexPage end-->
+</body>
+</html>
